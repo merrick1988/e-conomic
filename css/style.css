@@ -47,11 +47,13 @@ table#ListTableID tbody tr {
   table#ListTableID tbody tr td.icon-remove {
     display: table-cell;
     width: 20px;
-    background-position: -309px 7px; }
+    background-position: -309px 7px;
+    cursor: pointer; }
   table#ListTableID tbody tr td.icon-pencil {
     display: table-cell;
     width: 20px;
-    background-position: 4px -65px; }
+    background-position: 4px -65px;
+    cursor: pointer; }
   table#ListTableID tbody tr td:first-child {
     border-left: 1px solid #dee4e9; }
   table#ListTableID tbody tr td:last-child {
@@ -164,3 +166,8 @@ form {
     display: inline-block; }
   form .no-search + .chzn-container .chzn-search {
     display: none !important; }
+
+.error-message {
+  position: absolute;
+  bottom: 10px;
+  color: red; }

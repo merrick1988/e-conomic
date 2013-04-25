@@ -2,6 +2,7 @@ $(function () {
 
     //Init variables
     var inEdit = null,
+        canSave = false,
      dataTargetsIds = ["EntryDateID", "EntryID", "EntryTypeID",
             "TextID", "AmountID", "AccountNameID","AccountNoID", "ContraAccountID",
             "CurrencyID"];
@@ -29,9 +30,11 @@ $(function () {
         $("#NewEntryModalID").modal('show');
     });
     $("#saveNewEntry").click(function () {
-        SaveNewEntry();
-        ClearNewEntryForm();
-        $("#NewEntryModalID").modal('hide');
+        if(canSave){
+            SaveNewEntry();
+            ClearNewEntryForm();
+            $("#NewEntryModalID").modal('hide');
+        }
     })
     $("#cancelNewEntry").click(function () {
         ClearNewEntryForm();
@@ -61,6 +64,43 @@ $(function () {
         $("#AccountsChartModalID").hide("slow");
         return false
     })
+    $("#EntryDateID").on("change", function(){
+        if(!isValidDate($(this).val(), true)){
+            canSave = false;
+            $(".error-message").html("Date is not valid")
+        } else{
+            canSave = true;
+            $(".error-message").html("")
+        }
+    })
+
+    /**
+     * @private
+     * @method isValidDate
+     * @description
+     */
+    function isValidDate(str, daysFirst){
+        var re = /^(\d{1,2})[\s\.\/-](\d{1,2})[\s\.\/-](\d{4})$/
+        if (!re.test(str)) return false;
+        var result = str.match(re);
+        var m = parseInt(result[1],10);
+        var d = parseInt(result[2],10);
+        if (daysFirst) {
+            //if dd/mm/yyyy
+            d = parseInt(result[1],10);
+            m = parseInt(result[2],10);
+        }
+        var y = parseInt(result[3],10);
+        if (m < 1 || m > 12 || y < 1900 || y > 2100) return false;
+        if (m == 2){
+            var days = ((y % 4) == 0) ? 29 : 28;
+        } else if(m == 4 || m == 6 || m == 9 || m == 11){
+            var days = 30;
+        } else{
+            var days = 31;
+        }
+        return (d >= 1 && d <= days);
+    };
     /**
      * @private
      * @method getCurrentDate
