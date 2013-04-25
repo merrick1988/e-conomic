@@ -2,7 +2,7 @@ $(function () {
 
     //Init variables
     var inEdit = null,
-        canSave = false,
+        canSave = true,
      dataTargetsIds = ["EntryDateID", "EntryID", "EntryTypeID",
             "TextID", "AmountID", "AccountNameID","AccountNoID", "ContraAccountID",
             "CurrencyID"];
@@ -186,7 +186,6 @@ $(function () {
             tr = $("#ListTableID").find("tr[data-id='"+inEdit+"']");
 
             for (key in jsonForStore) {
-                console.log(jsonForStore[key])
                 tr.find("td[data-target='" + key + "']").html(jsonForStore[key]);
             }
             localStorage.setItem(inEdit, JSON.stringify(jsonForStore))
