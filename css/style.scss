@@ -1,0 +1,242 @@
+/*colors*/
+$navy: #385268;
+$white: #FFF;
+$gray: #dee4e9;
+$fontColor: #395472;
+/*sizes*/
+$trHeight: 32px;
+
+body{
+  color: $fontColor;
+  font:{
+    family: Andale Mono, monospace;
+    size: 14px;
+  }
+}
+.btn{
+  width: 100px;
+  font-weight: bold;
+}
+table#ListTableID, table#AccountsChartTableID{
+  width: 100%;
+  margin: 20px 0;
+  border-spacing: 0 3px;
+  border-collapse: separate;
+  thead{
+    tr{
+      background: $navy;
+      color: $white;
+      height: $trHeight;
+      th:first-child{
+        border-radius: 6px 0 0 6px;
+      }
+      th:last-child{
+        border-radius:  0 6px 6px 0 ;
+      }
+    }
+  }
+  tbody{
+    tr{
+      height: $trHeight;
+      td{
+        text-align: center;
+      }
+      td:first-child{
+        border-radius: 6px 0 0 6px;
+      }
+      td:last-child{
+        border-radius:  0 6px 6px 0 ;
+      }
+    }
+  }
+
+}
+table#ListTableID{
+  thead{
+    tr{
+      background: $navy;
+      color: $white;
+      height: $trHeight;
+      th:first-child{
+        border-radius: 6px 0 0 6px;
+      }
+      th:last-child{
+        border-radius:  0 6px 6px 0 ;
+      }
+    }
+  }
+  tbody{
+    tr{
+      height: $trHeight;
+      td{
+        border:{
+          bottom: 1px solid $gray;
+          top: 1px solid $gray;
+        }
+      }
+      td.icon-remove{
+        display: table-cell;
+        width: 20px;
+        background-position: -309px 7px;
+      }
+      td.icon-pencil{
+        display: table-cell;
+        width: 20px;
+        background-position: 4px -65px;
+      }
+      td:first-child{
+        border-left: 1px solid $gray;
+      }
+      td:last-child{
+        border-right: 1px solid $gray;
+      }
+    }
+    tr:nth-child(odd){
+      background: #dae0e5;
+    }
+    tr:nth-child(even){
+      background: #f2f2f2;
+    }
+  }
+}
+.modal{
+  width: 750px;
+  margin-left: -375px;
+  .modal-header, .modal-footer{
+    border: none;
+    background: none;
+    padding-left: 10px;
+  }
+  .modal-header{
+    button.close{
+      right: -10px;
+      position: absolute;
+      top: -13px;
+      opacity: 1;
+      height: 30px;
+      width: 30px;
+      color: white;
+      background: $navy;
+      border: 2px solid #FFF;
+      border-radius: 23px;
+    }
+  }
+  .modal-footer{
+    #cancelNewEntry{
+      float: left;
+    }
+  }
+  .modal-body{
+    background: url("../image/modal_bg.png");
+    margin: 0 10px;
+    box-shadow: 0 0 14px -2px rgba(0,0,0,0.5);
+    border-radius: 6px;
+    overflow: visible;
+  }
+}
+.chart-modal{
+  margin-top: -25px;
+  margin-left: -425px;
+  width: 850px;
+  padding: 10px;
+  font-family: Helvetica Narrow, sans-serif;
+  table{
+    margin: 0 0 20px 0;
+    tbody{
+      tr:hover,tr:nth-child(even):hover {
+        background: #dae0e5;
+      }
+      tr:nth-child(even) {
+        background: #f2f2f2;
+      }
+    }
+    td, th{
+        text-align: left;
+        padding-left: 10px;
+        border: none;
+        box-shadow: none;
+    }
+    td.icon-list-alt{
+      height: 32px;
+      background-position: -257px -15px;
+    }
+  }
+}
+form{
+  font:{
+    family: Helvetica Narrow, sans-serif;
+  }
+  fieldset{
+    border-right: 1px solid #e6e9e7;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    padding-right: 10px;
+    height: 200px;
+  }
+  fieldset:last-child{
+    border-right: none;
+  }
+  legend{
+    display: none;
+  }
+  label, input, select{
+    font:{
+      size: 12px;
+      weight: bold;
+    }
+  }
+  input[type="text"],
+  input[type="date"],
+  select{
+    color: #000;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    width: 100%;
+    height: $trHeight;
+    padding: 0 0 0 4px;
+
+  }
+  input:focus {
+    outline: none;
+  }
+  input[disabled]{
+    opacity: 0.7;
+    background-color: #f1f1e9;
+    color: #000;
+  }
+  .input-append{
+    input{
+      width: 80%;
+      border-right: none;
+    }
+    .add-on{
+      background-color: #ffffff;
+      border: 1px solid #cccccc;
+      -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+      -moz-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+      box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+      -webkit-transition: border linear 0.2s, box-shadow linear 0.2s;
+      -moz-transition: border linear 0.2s, box-shadow linear 0.2s;
+      -o-transition: border linear 0.2s, box-shadow linear 0.2s;
+      transition: border linear 0.2s, box-shadow linear 0.2s;
+      border-left: none;
+      border-radius: 0 4px 4px 0;
+      right: 5px;
+      box-sizing: border-box;
+      -moz-box-sizing: border-box;
+      i{
+        display: block;
+      }
+    }
+
+  }
+  .half_width{
+    width: 49%;
+    display: inline-block;
+  }
+  .no-search + .chzn-container .chzn-search{
+    display: none !important;
+  }
+
+}
+
