@@ -112,12 +112,15 @@ table#ListTableID tbody tr:nth-child(even) {
       background-position: -257px -15px; }
 
 form {
+  height: 175px;
+  margin-left: -10px;
   font-family: Helvetica Narrow, sans-serif; }
   form fieldset {
+    width: 213px;
+    display: block;
+    float: left;
     border-right: 1px solid #e6e9e7;
-    box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    padding-right: 10px;
+    padding: 0 10px;
     height: 200px; }
   form fieldset:last-child {
     border-right: none; }
@@ -144,6 +147,12 @@ form {
   form .input-append input {
     width: 80%;
     border-right: none; }
+  form .input-append input.validation-error {
+    border: 1px solid red;
+    border-right: transparent; }
+  form .input-append input.validation-error + .add-on {
+    border: 1px solid red;
+    border-left: transparent; }
   form .input-append .add-on {
     background-color: #ffffff;
     border: 1px solid #cccccc;
@@ -168,6 +177,5 @@ form {
     display: none !important; }
 
 .error-message {
-  position: absolute;
   bottom: 10px;
   color: red; }

@@ -1,9 +1,10 @@
 $(function () {
-
     //Init variables
     var inEdit = null,
         canSave = true,
-     dataTargetsIds = ["EntryDateID", "EntryID", "EntryTypeID",
+        storage = JSON.parse(localStorage.getItem("test")) || {},
+        storageLength =  Object.keys(storage).length || 0,
+        dataTargetsIds = ["EntryDateID", "EntryID", "EntryTypeID",
             "TextID", "AmountID", "AccountNameID","AccountNoID", "ContraAccountID",
             "CurrencyID"];
 
@@ -12,8 +13,8 @@ $(function () {
     if (typeof(localStorage) == 'undefined' ) {
         $(".container").append('<span>Your browser does not support HTML5 localStorage. Try upgrading or use another browser.</span>');
     } else {
-        for(var i = 0; i < localStorage.length; i++){
-            AddNewEntry(JSON.parse(localStorage.getItem(i)), i);
+        for(var key in storage){
+            AddNewEntry(storage[key]);
         }
     }
 
@@ -40,11 +41,12 @@ $(function () {
         ClearNewEntryForm();
         $("#NewEntryModalID").modal('hide');
     })
-    $("#AccountNoID+.add-on").on("click",function(){
+
+    $("#AccountNoID + .add-on").on("click",function(){
         $("#AccountsChartModalID").data("target", "#AccountNoID")
         $("#AccountsChartModalID").show("slow");
     })
-    $("#ContraAccountID+.add-on").on("click",function(){
+    $("#ContraAccountID + .add-on").on("click",function(){
         $("#AccountsChartModalID").data("target", "#ContraAccountID")
         $("#AccountsChartModalID").show("slow");
     })
@@ -67,10 +69,12 @@ $(function () {
     $("#EntryDateID").on("change", function(){
         if(!isValidDate($(this).val(), true)){
             canSave = false;
-            $(".error-message").html("Date is not valid")
+            $("#EntryDateID").addClass("validation-error");
+            $(".error-message").html("Date is not valid");
         } else{
             canSave = true;
-            $(".error-message").html("")
+            $(".error-message").html("") ;
+            $("#EntryDateID").removeClass("validation-error");
         }
     })
 
@@ -119,8 +123,8 @@ $(function () {
      * @description updates the span in the bottom of the page
      */
     function updateEntriesCount(){
-          if(localStorage.length){
-              $("#EntriesCountID span").text(localStorage.length);
+          if(storageLength){
+              $("#EntriesCountID span").text(storageLength);
               $("#EntriesCountID").show()
           }else{
               $("#EntriesCountID").hide()
@@ -132,15 +136,20 @@ $(function () {
      * @description remove existing entry from the page and from the storage
      */
     function removeEntry(target){
-        var number =  $(target).parent().data("id");
-        console.log(number)
+        var number =  $(target).parent()[0].rowIndex - 1;
+
         // remove from storage
-        for(var i = number; i < localStorage.length; i++){
-            localStorage.setItem(i, localStorage.getItem(i+1));
+        for(var i = number; i < storageLength; i++){
+            storage[i] = storage[i+1];
         }
-        localStorage.removeItem(localStorage.length -1 );
+        storageLength--;
+        localStorage.setItem("test", JSON.stringify(storage));
+
         //remove event
         $(target).off("click", function(){
+            removeEntry(this);
+        })
+        $(target).parent().find(".icon-edit").off("click", function(){
             removeEntry(this);
         })
         // remove from view
@@ -154,8 +163,10 @@ $(function () {
      * @description open modal window for editing entry
      */
     function editEntry(target){
-        inEdit = $(target).parent().data("id");
-        var localData = JSON.parse(localStorage.getItem(inEdit));
+        var  localData = {};
+
+        inEdit =  $(target).parent()[0].rowIndex - 1;
+        localData = storage[inEdit];
 
         $("#NewEntryModalID").modal('show');
         dataTargetsIds.forEach(function (el, index) {
@@ -178,44 +189,51 @@ $(function () {
      * @description remove all values from the form
      */
     function SaveNewEntry() {
-        var jsonForStore = {}, tr;
+        var jsonForStorage = {}, tr;
+
         dataTargetsIds.forEach(function (el, index) {
-            jsonForStore[el] = $("#newEntry #" + el).val();
+            jsonForStorage[el] = $("#newEntry #" + el).val();
         })
         if(inEdit !== null){
-            tr = $("#ListTableID").find("tr[data-id='"+inEdit+"']");
+            tr = $("#ListTableID").find("tr").eq(inEdit+1);
 
-            for (key in jsonForStore) {
-                tr.find("td[data-target='" + key + "']").html(jsonForStore[key]);
+            for (key in jsonForStorage) {
+                tr.find("td[data-target='" + key + "']").html(jsonForStorage[key]);
             }
-            localStorage.setItem(inEdit, JSON.stringify(jsonForStore))
+            storage[inEdit] = (jsonForStorage);
             inEdit = null;
 
         } else{
-            AddNewEntry(jsonForStore, localStorage.length)
-            localStorage.setItem(localStorage.length, JSON.stringify(jsonForStore))
-            updateEntriesCount();
+            storage[storageLength] = jsonForStorage;
+            storageLength++;
+            AddNewEntry(jsonForStorage, inEdit);
         }
+        localStorage.setItem("test", JSON.stringify(storage));
     }
     /**
      * @private
      * @method AddNewEntry
      * @description
      */
-    function AddNewEntry(data, index){
-        var list = $("#ListTableID"), removeButton, editButton;
+    function AddNewEntry(data){
+        var $list = $("#ListTableID"), removeButton, editButton;
 
-            list.append("<tr data-id='"+index+"'>");
-            removeButton = $("<td class='icon-remove'>").on("click", function(){
-                removeEntry(this);
-            });
-            editButton = $("<td class='icon-pencil'>").on("click", function(){
-                editEntry(this);
-            })
-            for (key in data) {
-                list.find("tr").last().append("<td data-target='" + key + "'>" + data[key] + "</td>");
-            }
-            list.find("tr").last().append(removeButton).append(editButton);
-            updateEntriesCount();
+        $list.append("<tr>");
+
+        removeButton = $("<td class='icon-remove'>").on("click", function(){
+            removeEntry(this);
+        });
+
+        editButton = $("<td class='icon-pencil'>").on("click", function(){
+            editEntry(this);
+        })
+
+        for (var key in data) {
+            $list.find("tr").last().append("<td data-target='" + key + "'>" + data[key] + "</td>");
         }
+
+        $list.find("tr").last().append(removeButton).append(editButton);
+
+        updateEntriesCount();
+    }
 });

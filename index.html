@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="css/datepicker.css"/>
     <link rel="stylesheet" href="css/chosen.css"/>
     <link rel="stylesheet" href="css/style.css"/>
+    <link rel="stylesheet" href="css/jasmine.css"/>
 </head>
 <body>
 <div class="container">
@@ -44,8 +45,8 @@
             <h3 class="text-info">Day book</h3>
         </div>
         <div class="modal-body">
-            <form action="" class="row" id="newEntry">
-                <fieldset class="span3">
+            <form action="" id="newEntry">
+                <fieldset>
                     <legend>Entry date</legend>
                     <label for="EntryTypeID" class="half_width">
                         Entry Type
@@ -68,7 +69,7 @@
                         </div>
                     </label>
                 </fieldset>
-                <fieldset class="span3">
+                <fieldset>
                     <legend>Account information</legend>
                     <label for="AccountNoID" class="half_width">
                         Account no.
@@ -93,7 +94,7 @@
                         <input type="text" id="ContraAccountNameID" disabled />
                     </label>
                 </fieldset>
-                <fieldset class="span3">
+                <fieldset>
                     <legend>Cart information</legend>
                     <label for="DcID" class="half_width">
                         D/C
@@ -135,6 +136,7 @@
                         </select>
                     </label>
                 </fieldset>
+
             </form>
             <span class="error-message"></span>
         </div>

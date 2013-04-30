@@ -166,15 +166,19 @@ table#ListTableID{
   }
 }
 form{
+  height: 175px;
+  margin-left: -10px;
   font:{
     family: Helvetica Narrow, sans-serif;
   }
   fieldset{
+    width: 213px;
+    display: block;
+    float: left;
     border-right: 1px solid #e6e9e7;
-    box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    padding-right: 10px;
+    padding:0 10px;
     height: 200px;
+
   }
   fieldset:last-child{
     border-right: none;
@@ -212,6 +216,14 @@ form{
       width: 80%;
       border-right: none;
     }
+    input.validation-error{
+      border: 1px solid red;
+      border-right: transparent;
+    }
+    input.validation-error + .add-on{
+      border: 1px solid red;
+      border-left: transparent;
+    }
     .add-on{
       background-color: #ffffff;
       border: 1px solid #cccccc;
@@ -243,7 +255,6 @@ form{
 
 }
 .error-message{
-  position: absolute;
   bottom: 10px;
   color: red;
 }
