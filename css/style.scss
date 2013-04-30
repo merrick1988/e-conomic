@@ -212,6 +212,9 @@ form{
     background-color: #f1f1e9;
     color: #000;
   }
+  input.validation-error{
+    border: 1px solid red;
+  }
   .input-append{
     input{
       width: 80%;
@@ -258,6 +261,9 @@ form{
 .error-message{
   bottom: 10px;
   color: red;
+  span{
+    display: block;
+  }
 }
 
 

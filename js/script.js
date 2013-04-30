@@ -32,7 +32,7 @@ $(function () {
         $("#NewEntryModalID").modal('show');
     });
     $("#saveNewEntry").click(function () {
-        if(canSave){
+        if(validateForm()){
             SaveNewEntry();
             ClearNewEntryForm();
             $("#NewEntryModalID").modal('hide');
@@ -67,36 +67,30 @@ $(function () {
         $("#AccountsChartModalID").hide("slow");
         return false
     })
-    $("#EntryDateID").on("change", function(){
-        if(!isValidDate($(this).val(), true)){
-            canSave = false;
-            $("#EntryDateID").addClass("validation-error");
-            $(".error-message").html("Date is not valid");
-        } else{
-            canSave = true;
-            $(".error-message").html("") ;
-            $("#EntryDateID").removeClass("validation-error");
-        }
-    })
 
     /**
      * @private
      * @method isValidDate
      * @description
      */
-    function isValidDate(str, daysFirst){
-        var re = /^(\d{1,2})[\s\.\/-](\d{1,2})[\s\.\/-](\d{4})$/
-        if (!re.test(str)) return false;
-        var result = str.match(re);
-        var m = parseInt(result[1],10);
-        var d = parseInt(result[2],10);
-        if (daysFirst) {
-            //if dd/mm/yyyy
-            d = parseInt(result[1],10);
-            m = parseInt(result[2],10);
+    function isValidDate(){
+        var target = $("#EntryDateID").val(),
+            valid = true,
+            regExp = /^(\d{1,2})[\s\.\/-](\d{1,2})[\s\.\/-](\d{4})$/ ;
+
+        if (!regExp.test(target)){
+            valid  = false;
         }
-        var y = parseInt(result[3],10);
-        if (m < 1 || m > 12 || y < 1900 || y > 2100) return false;
+
+        var result = target.match(regExp),
+            d = parseInt(result[1],10),
+            m = parseInt(result[2],10),
+            y = parseInt(result[3],10);
+
+        if (m < 1 || m > 12 || y < 1900 || y > 2100){
+            valid  = false;
+        }
+
         if (m == 2){
             var days = ((y % 4) == 0) ? 29 : 28;
         } else if(m == 4 || m == 6 || m == 9 || m == 11){
@@ -104,7 +98,18 @@ $(function () {
         } else{
             var days = 31;
         }
-        return (d >= 1 && d <= days);
+
+        if(!(d >= 1 && d <= days)){
+            valid = false}
+        ;
+        if(valid){
+            $(".error-message .date-error").remove();
+            $("#EntryDateID").removeClass("validation-error");
+        } else{
+            $("#EntryDateID").addClass("validation-error");
+            $(".error-message").append("<span class='date-error'>Date is not valid</span>");
+        }
+        return valid;
     };
     /**
      * @private
@@ -130,6 +135,20 @@ $(function () {
           }else{
               $("#EntriesCountID").hide()
           }
+    }
+    function isAmountValid(){
+        if($("#AmountID").val()){
+            $(".error-message .amount-error").remove();
+            $("#AmountID").removeClass("validation-error");
+            return true;
+        } else{
+            $("#AmountID").addClass("validation-error");
+            $(".error-message").append("<span class='amount-error'>Amount can't be empty</span>");
+            return false;
+        }
+    }
+    function validateForm(){
+         return isValidDate() && isAmountValid()
     }
     /**
      * @private
