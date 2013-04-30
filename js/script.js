@@ -32,7 +32,8 @@ $(function () {
         $("#NewEntryModalID").modal('show');
     });
     $("#saveNewEntry").click(function () {
-        if(validateForm()){
+        $(".error-message").html("");
+        if(isAmountValid() & isValidDate()){
             SaveNewEntry();
             ClearNewEntryForm();
             $("#NewEntryModalID").modal('hide');
@@ -111,11 +112,13 @@ $(function () {
         if(valid){
             $(".error-message .date-error").remove();
             $("#EntryDateID").removeClass("validation-error");
+            return true;
         } else{
             $("#EntryDateID").addClass("validation-error");
             $(".error-message").append("<span class='date-error'>Date is not valid</span>");
+            return false;
         }
-        return canSave = valid;
+
     };
     /**
      * @private
@@ -137,7 +140,7 @@ $(function () {
     function updateEntriesCount(){
           if(storageLength){
               $("#EntriesCountID span").text(storageLength);
-              $("#EntriesCountID").show()
+              $("#EntriesCountID").show();
           }else{
               $("#EntriesCountID").hide();
           }
@@ -150,14 +153,8 @@ $(function () {
         } else{
             $("#AmountID").addClass("validation-error");
             $(".error-message").append("<span class='amount-error'>Amount can't be empty</span>");
-            return canSave = false;
+            return false;
         }
-    }
-    function validateForm(){
-        $(".error-message").html("");
-        isAmountValid();
-        isValidDate();
-        return  canSave;
     }
     /**
      * @private
@@ -219,10 +216,11 @@ $(function () {
      */
     function SaveNewEntry() {
         var jsonForStorage = {}, tr;
-
+        $("#newEntry #CurrencyID").val($("#CurrencyID_chzn span").html());
         dataTargetsIds.forEach(function (el, index) {
             jsonForStorage[el] = $("#newEntry #" + el).val();
         })
+
         if(inEdit !== null){
             tr = $("#ListTableID").find("tr").eq(inEdit+1);
 
