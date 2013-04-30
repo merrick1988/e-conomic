@@ -67,6 +67,12 @@ $(function () {
         $("#AccountsChartModalID").hide("slow");
         return false
     })
+    $("#EntryDateID").on("change",function(){
+       isValidDate();
+    })
+    $("#AmountID").on("change",function(){
+        isAmountValid();
+    })
 
     /**
      * @private
@@ -109,7 +115,7 @@ $(function () {
             $("#EntryDateID").addClass("validation-error");
             $(".error-message").append("<span class='date-error'>Date is not valid</span>");
         }
-        return valid;
+        return canSave = valid;
     };
     /**
      * @private
@@ -133,7 +139,7 @@ $(function () {
               $("#EntriesCountID span").text(storageLength);
               $("#EntriesCountID").show()
           }else{
-              $("#EntriesCountID").hide()
+              $("#EntriesCountID").hide();
           }
     }
     function isAmountValid(){
@@ -144,11 +150,14 @@ $(function () {
         } else{
             $("#AmountID").addClass("validation-error");
             $(".error-message").append("<span class='amount-error'>Amount can't be empty</span>");
-            return false;
+            return canSave = false;
         }
     }
     function validateForm(){
-         return isValidDate() && isAmountValid()
+        $(".error-message").html("");
+        isAmountValid();
+        isValidDate();
+        return  canSave;
     }
     /**
      * @private
