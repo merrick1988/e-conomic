@@ -1,4 +1,5 @@
 $(function () {
+
     //Init variables
     var inEdit = null,
         canSave = true,
@@ -149,7 +150,7 @@ $(function () {
         $(target).off("click", function(){
             removeEntry(this);
         })
-        $(target).parent().find(".icon-edit").off("click", function(){
+        $(target).parent().find(".icon-pencil").off("click", function(){
             removeEntry(this);
         })
         // remove from view
@@ -237,3 +238,4 @@ $(function () {
         updateEntriesCount();
     }
 });
+
