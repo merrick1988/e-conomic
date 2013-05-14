@@ -1,9 +1,9 @@
 var ToDo = Backbone.Model.extend({
     defaults:{
-        titles:{
-            date: "date here",
-            name: "name here"
-        }
+        date: "date here",
+        name: "name here",
+        hour:"00",
+        minute:"00"
     },
 
     remove: function() {

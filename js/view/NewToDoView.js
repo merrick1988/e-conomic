@@ -1,32 +1,65 @@
 var NewToDoView = Backbone.View.extend({
-    tagName:  "div",
-    id: "NewEntryModalID",
-    className: "modal hide fade",
-    template: _.template($('#NewToDoTmpl').html()),
-
     events: {
         "click #CancelNewEntry"   : "remove",
-        "click #SaveNewEntry" : "save"
-    },
-
-    initialize: function() {
-        this.model.bind('change', this.render, this);
+        "click #SaveNewEntry" : "save",
+        "click .time_up" : "timeUp",
+        "click .time_down" : "timeDown",
+        "change #EntryDateID" : "setDate"
 
     },
     render: function() {
+        this.template = _.template(window.NewToDoTmpl.join("\n"));
         this.$el.html(this.template(this.model.toJSON()));
-        $(this.el).modal('show');
-        this.$("#EntryDateID").val(moment().format("DD-MM-YYYY"));
+
+        this.$(".modal").modal('show');
+
         this.$('#EntryDateID').datepicker();
         this.$("#EntryDateID").mask("99-99-9999");
+
         return this;
     },
+    setDate: function(){
+        this.model.set("date", $("#EntryDateID").val())
+    },
+    timeUp: function(event){
+        var _this = this,
+            $target = $(event.target).next().find(".numbers_inner_container"),
+            dateFormat = $(event.target).next().data("dateFormat"),
+            dateShorthand =  $(event.target).next().data("dateShorthand");
+        $("<div>").addClass("number").html(moment($target.children(".current").html(), dateShorthand).add(dateFormat, 3).format(dateShorthand)).appendTo($target);
+        $target.children(".current").removeClass("current").next().addClass("current");
+
+        $target.children().first().hide("slow");
+        _this.model.set("hour", $target.find(".number.current").html());
+        setTimeout(function(){
+            $target.children().first().remove();
+        }, 500)
+
+
+    },
+    timeDown: function(){
+        var _this = this,
+            $target = $(event.target).prev().find(".numbers_inner_container"),
+            dateFormat = $(event.target).prev().data("dateFormat"),
+            dateShorthand =  $(event.target).prev().data("dateShorthand");
+
+        $("<div>").addClass("number hide").html(moment($target.children(".current").html(), dateShorthand).add(dateFormat, -3).format(dateShorthand)).prependTo($target).show("slow");
+        $target.children(".current").removeClass("current").prev().addClass("current");
+        $target.children().last().remove();
+        _this.model.set("hour", $target.find(".number.current").html());
+    },
     remove:  function(){
-        this.$el.modal('hide');
+        this.$(".modal").modal('hide');
         this.destroy();
     },
     save: function(){
-        Todos.create({titles: {"date": this.$('#EntryDateID').val(), "name": this.$('#NameID').val()}});
-        this.$el.modal('hide');
+        this.setDate();
+        var newToDo = Todos.create();
+        newToDo.set({"date": this.$('#EntryDateID').val(),
+                      "name": this.$('#NameID').val(),
+                      "hour": this.$(".hour .current").html(),
+                      "minute": this.$(".minute .current").html()
+                    });
+        this.$(".modal").modal('hide');
     }
 })

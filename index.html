@@ -3,6 +3,7 @@
 <head>
     <title>Tracking test</title>
     <meta charset="utf-8">
+    <link rel="stylesheet" href="css/reset.css"/>
     <link rel="stylesheet" href="css/bootstrap.css"/>
     <link rel="stylesheet" href="css/datepicker.css"/>
     <link rel="stylesheet" href="css/chosen.css"/>
@@ -10,22 +11,21 @@
     <link rel="stylesheet" href="css/qUnit.css"/>
 </head>
 <body>
-
-<div class="test hide">
-    <div id="qunit"></div>
-    <div id="qunit-fixture"></div>
-</div>
-
 <div class="container">
     <div id="ToDoListID">
         <h2 class="text-info">TO DO</h2>
         <button id="NewEntryButtonID" class="btn btn-success" type="button">New entry</button>
+        <div class="display_type">
+            <a href="#" class="display_type display_type__day">Day view</a>
+            <a href="#" class="display_type display_type__month">Month view</a>
+        </div>
         <div class="row">
             <div class="span12">
                 <table id="ListTableID">
                     <thead>
                     <tr>
                         <th>Date</th>
+                        <th>Time</th>
                         <th>Name</th>
                         <th></th>
                         <th></th>
@@ -39,96 +39,8 @@
             </div>
         </div>
     </div>
-    <div id="NewToDoPlace">
-
-        </div>
-        <div class="chart-modal modal hide" id="AccountsChartModalID" data-target="">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                <h3 class="text-info">Chart of accounts</h3>
-            </div>
-                <table id="AccountsChartTableID">
-                    <thead>
-                        <tr>
-                            <th>No.</th>
-                            <th>Name</th>
-                            <th></th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    <tr>
-                        <td>1000</td>
-                        <td>FIXED ASSETS</td>
-                        <td>Heading</td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td>1010</td>
-                        <td>Freehold property</td>
-                        <td>Balance sheet</td>
-                        <td><span class="icon-list-alt"></span></td>
-                    </tr>
-                    <tr>
-                        <td>1011</td>
-                        <td>Leasehold property</td>
-                        <td>Balance sheet</td>
-                        <td><span class="icon-list-alt"></span></td>
-                    </tr>
-                    <tr>
-                        <td>1020</td>
-                        <td>Plant and machinery</td>
-                        <td>Balance sheet</td>
-                        <td><span class="icon-list-alt"></span></td>
-                    </tr>
-                    <tr>
-                        <td>1021</td>
-                        <td>Plant/machinery depreciation</td>
-                        <td>Balance sheet</td>
-                        <td><span class="icon-list-alt"></span></td>
-                    </tr>
-                    <tr>
-                        <td>1030</td>
-                        <td>Office equipment</td>
-                        <td>Balance sheet</td>
-                        <td><span class="icon-list-alt"></span></td>
-                    </tr>
-                    <tr>
-                        <td>1031</td>
-                        <td>Office equipment depreciation</td>
-                        <td>Balance sheet</td>
-                        <td><span class="icon-list-alt"></span></td>
-                    </tr>
-                    <tr>
-                        <td>1040</td>
-                        <td>Furniture and fixtures</td>
-                        <td>Balance sheet</td>
-                        <td><span class="icon-list-alt"></span></td>
-                    </tr>
-                    <tr>
-                        <td>1041</td>
-                        <td>Furniture/fixtures depreciation</td>
-                        <td>Balance sheet</td>
-                        <td><span class="icon-list-alt"></span></td>
-                    </tr>
-                    <tr>
-                        <td>1050</td>
-                        <td>Motor vehicles</td>
-                        <td>Balance sheet</td>
-                        <td><span class="icon-list-alt"></span></td>
-                    </tr>
-                    <tr>
-                        <td>1051</td>
-                        <td>Motor vehicles depreciation</td>
-                        <td>Balance sheet</td>
-                        <td><span class="icon-list-alt"></span></td>
-                    </tr>
-                    </tbody>
-                </table>
-                <div class="info text-right"><span>11</span> items in total</div>
-            </div>
-        </div>
-    </div>
+    <div id="NewToDoPlace"></div>
+</div>
 
 <script src="js/jquery.js"></script>
 <script src="js/bootstrap.js"></script>
@@ -146,107 +58,15 @@
 
 <!-- tpl data -->
 <script type="text/template" id="entry-template">
-    <% _.each(titles, function(val, key) { %> <td><%= val %></td> <% }); %>
+    <td><%= date %></td>
+    <td><%= hour %>:<%= minute %></td>
+    <td><%= name %></td>
     <td class='icon-remove'></td>
     <td class='icon-pencil'></td>
 </script>
 <script type="text/template" id="counter-template">
     <div id="EntriesCountID" class="muted text-right hide"><span><%= remaining %></span> items in total</div>
 </script>
-<script type="text/template" id="NewToDoTmpl">
-    <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h3 class="text-info">Day book</h3>
-    </div>
-    <div class="modal-body">
-        <form action="" id="newEntry">
-            <fieldset>
-                <label for="NameID">
-                    <%= nameLabel%>
-                    <input type="text" id="NameID" placeholder="<%= nameInput%>"/>
-                </label>
-                <label for="EntryDateID" class="half_width">
-                    <%= dateLabel%>
-                    <div class="input-append date">
-                        <input class="span2 no-need-clear" size="16" id="EntryDateID" type="text" value="<%= dateInput%>" data-date="12-02-2012" data-date-format="dd-mm-yyyy">
-                        <span class="add-on"><i class="icon-calendar"></i></span>
-                    </div>
-                </label>
-            </fieldset>
-        </form>
-            <!--<legend>Account information</legend>-->
-    <!--<label for="AccountNoID" class="half_width">-->
-            <!--Account no.-->
-    <!--<div class="input-append" >-->
-            <!--<input size="16" type="text" id="AccountNoID">-->
-            <!--<span class="add-on"><i class="icon-align-justify"></i></span>-->
-            <!--</div>-->
-            <!--</label>-->
-    <!--<label for="ContraAccountID" class="half_width">-->
-            <!--Contra account-->
-    <!--<div class="input-append" >-->
-            <!--<input size="16" type="text" id="ContraAccountID">-->
-            <!--<span class="add-on"><i class="icon-align-justify"></i></span>-->
-            <!--</div>-->
-            <!--</label>-->
-    <!--<label for="AccountNameID">-->
-            <!--Account name-->
-    <!--<input class="no-need-clear" type="text" id="AccountNameID" value="Plant and machinery" disabled/>-->
-            <!--</label>-->
-    <!--<label for="ContraAccountNameID">-->
-            <!--Contra account name-->
-    <!--<input type="text" id="ContraAccountNameID" disabled />-->
-            <!--</label>-->
-            <!--</fieldset>-->
-            <!--<fieldset>-->
-            <!--<legend>Cart information</legend>-->
-    <!--<label for="DcID" class="half_width">-->
-            <!--D/C-->
-            <!--<select name="EntryType" id="DcID" data-placeholder="Choose ..." class="no-search chzn-select">-->
-            <!--<option value=""></option>-->
-            <!--<option value="debit">Debit</option>-->
-            <!--<option value="debit">Credit</option>-->
-            <!--</select>-->
-            <!--</label>-->
-            <!--<label for="AmountID" class="half_width">-->
-            <!--Amount-->
-            <!--<input type="text" id="AmountID" />-->
-            <!--</label>-->
-            <!--<label for="TextID">-->
-            <!--Text-->
-            <!--<input type="text" id="TextID" />-->
-            <!--</label>-->
-            <!--<label for="CurrencyID" class="half_width">-->
-            <!--Currency-->
-            <!--<select data-placeholder="Select Currency" id="CurrencyID" class="chzn-select">-->
-            <!--<option value=""></option>-->
-            <!--<option>AED</option>-->
-            <!--<option>AFN</option>-->
-            <!--<option>ALL</option>-->
-            <!--<option>CZK</option>-->
-            <!--<option selected>UAH</option>-->
-            <!--<option>USD</option>-->
-            <!--<option>USS</option>-->
-            <!--<option>USN</option>-->
-            <!--<option>RUR</option>-->
-            <!--<option>RUB</option>-->
-            <!--<option>BOB</option>-->
-            <!--<option>USD</option>-->
-            <!--<option>USS</option>-->
-            <!--<option>USN</option>-->
-            <!--<option>XDR</option>-->
-            <!--<option>XFU</option>-->
-            <!--<option>XFU</option>-->
-            <!--</select>-->
-            <!--</label>-->
-            <!--</fieldset>-->
 
-    <span class="error-message"></span>
-            </div>
-            <div class="modal-footer">
-            <a href="#" id="CancelNewEntry" class="btn btn-info">Cancel</a>
-            <a href="#" id="SaveNewEntry" class="btn btn-success ">Save</a>
-            </div>
-</script>
 </body>
 </html>

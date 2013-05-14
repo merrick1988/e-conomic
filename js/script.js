@@ -1,4 +1,4 @@
-require(["js/model/ToDo", "js/model/NewToDo", "js/collection/ToDoList", "js/view/TodoView", "js/view/NewToDoView", "js/view/AppView"], function() {
+require(["js/template/newToDoTmpl", "js/model/ToDo", "js/model/NewToDo", "js/collection/ToDoList", "js/view/TodoView", "js/view/NewToDoView", "js/view/AppView"], function() {
     $(function() {
         var App = new AppView;
     });

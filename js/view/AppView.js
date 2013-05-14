@@ -19,8 +19,9 @@ var AppView = Backbone.View.extend({
     },
     showNewToDoModal: function(){
         var newtodo = new NewToDo;
-        var newToDoModal = new NewToDoView({model: newtodo});
+        var newToDoModal = new NewToDoView({model: newtodo, el: "#NewToDoPlace"});
         $("#NewToDoPlace").append(newToDoModal.render().el);
+
     },
     addOne: function(todo) {
         var view = new TodoView({model: todo});
