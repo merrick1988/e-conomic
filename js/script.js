@@ -4,6 +4,7 @@ require(["js/template/newToDoTmpl", "js/model/ToDo", "js/model/NewToDo", "js/col
     });
 });
 
+
 //$(function () {
 //    //Init variables
 //    var inEdit = null,
